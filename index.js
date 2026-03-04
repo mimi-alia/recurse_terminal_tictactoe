@@ -39,11 +39,15 @@ function placeValue(value, index){
       score.splice(index, 1, value);
     } else if (index < 1){
       alert("... that's... not a valid .... spot??? try again.")
+      placeValue(currentTurn, prompt("Choose a spot on the board!"));
     } else {
+      //how is this triggering for invalid inputs??????
       alert("Spot already occupied... try again ?")
+      placeValue(currentTurn, prompt("Choose a spot on the board!"));
     }
   } else {
    alert("hey! that's not a valid input for tic tac toeeee, use exes and ohs >.<")
+   placeValue(currentTurn, prompt("Choose a spot on the board!"));
   }
 }
 
@@ -88,15 +92,33 @@ function assessWin(scoreArr, winningIndexArrs){
     }
   }
 
-  if(winningIndexArrs.includes(exes)){
-    clearBoard();
-    alert("Congrats, exes won! Game reset.");
-  } else if (winningIndexArrs.includes(ohs)){
-    clearBoard();
-    alert("Congrats, ohs win! Game reset.");
-  } else {
-    return false;
+  for (let value in exes) {
+    if (winningIndexArrs.includes(exes.slice(value, value+3))) {
+      clearBoard();
+      alert("Congrats, exes won! Game reset.");
+    }
   }
+
+  for (let value in ohs) {
+    if (winningIndexArrs.includes(ohs.slice(value, value+3))) {
+      clearBoard();
+      alert("Congrats, ohs win! Game reset.");
+    }
+  }
+
+  //add function that assess score and alerts that there are no winners and clear board
+
+  return false;
+
+  // if(winningIndexArrs.includes(exes)){
+  //   clearBoard();
+  //   alert("Congrats, exes won! Game reset.");
+  // } else if (winningIndexArrs.includes(ohs)){
+  //   clearBoard();
+  //   alert("Congrats, ohs win! Game reset.");
+  // } else {
+  //   return false;
+  // }
 }
 
 
@@ -130,23 +152,28 @@ function takeTurn(){
 
 
 function playGame(){
+  if(Object.keys(players).length === 0){
+    console.log(players); //empty object 
+    choosePlayer();
+    console.log(players); //object w/ players assigned
+    //why does this automatically skip to take turn, and why is the value empty?
 
-  if(Object.keys(players).length !== 0){
+  } else if (Object.keys(players).length !== 0){
     takeTurn();
-  } else {
-    alert("no player chosen")
-  }
+  } 
 
-  if (assessWin(score, winningIndexes) === false){
-    placeValue(currentTurn, prompt("Choose a spot on the board!"));
-    //here is where the infinite loop starts
+    if (assessWin(score, winningIndexes) === false){
+      placeValue(currentTurn, prompt("Choose a spot on the board!"));
+      //here is where the infinite loop starts else if {
+    
   } else {
     assessWin(score, winningIndexes);
-  }
+  } 
+  console.log(score)
 }
 
 choosePlayer();
-playGame();
+//playGame();
 
 
 //why does this create an infinite loop if embedded inside of the second conditional  of playGame (marked in code as here) but only triggers twice here???
