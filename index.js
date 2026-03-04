@@ -106,6 +106,13 @@ function assessWin(scoreArr, winningIndexArrs){
     }
   }
 
+  for (let value in scoreArr) {
+    if (!scoreArr.includes(" ")){
+      clearBoard();
+      alert("No winners! Game reset")
+    }
+  }
+
   //add function that assess score and alerts that there are no winners and clear board
 
   return false;
@@ -121,8 +128,6 @@ function assessWin(scoreArr, winningIndexArrs){
   // }
 }
 
-
-assessWin(score, winningIndexes)
 
 
 //Function that selects players
@@ -163,7 +168,7 @@ function playGame(){
   } 
 
     if (assessWin(score, winningIndexes) === false){
-      placeValue(currentTurn, prompt("Choose a spot on the board!"));
+      placeValue(currentTurn, prompt(`Player${currentTurn}, choose a spot on the board!`));
       //here is where the infinite loop starts else if {
     
   } else {
